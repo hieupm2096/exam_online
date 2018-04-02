@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Create Question</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500" />
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="assets/css/form-elements.css" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+    </h:head>
+    <h:body>
+        <div class="top-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 form-box">
+                        <h:form class="f1">
+                            <h3>Create Question</h3>
+                            <p>Fill in the form to create question</p>
+                            <div class="f1-steps">
+                                <div class="f1-progress">
+                                    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3" style="width: 16.66%;" />
+                                </div>
+                                <div class="f1-step active">
+                                    <div class="f1-step-icon"><i class="fa fa-question"></i></div>
+                                    <p>question</p>
+                                </div>
+                                <div class="f1-step">
+                                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                                    <p>answer</p>
+                                </div>
+                                <div class="f1-step">
+                                    <div class="f1-step-icon"><i class="fa fa-check"></i></div>
+                                    <p>finish</p>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <h4>Create question:</h4>
+                                <div class="form-group">
+                                    <label class="sr-only" for="sl_question_type">Type</label>
+                                    <h:selectOneMenu id="sl_question_type" value="#{questionBean.questionType}" class="form-control">
+                                        <f:selectItem itemLabel="Question Type..." />
+                                        <f:selectItems value="#{questionBean.typeList}" var="t" itemValue="#{t.id}" itemLabel="#{t.title}" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="txt_content">Content</label>
+                                    <h:inputTextarea id="txt_content" value="#{questionBean.content}" class="form-control" a:placeholder="Question..." />
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="sl_point">Point</label>
+                                    <h:selectOneMenu id="sl_point" value="#{questionBean.point}" class="form-control">
+                                        <f:selectItem itemLabel="Point..." />
+                                        <f:selectItem itemValue="10" itemLabel="10" />
+                                        <f:selectItem itemValue="15" itemLabel="15" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="sl_course">Course</label>
+                                    <h:selectOneMenu id="sl_course" value="#{questionBean.course}" class="form-control" >
+                                        <f:selectItem itemValue="" itemLabel="Course..." />
+                                        <f:selectItems value="#{questionBean.courseList}" var="c" itemValue="#{c.id}" itemLabel="#{c.name}" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <h4>Create answers for the question:</h4>
+                                <div>
+                                    <table class=" table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <td>Answer</td>
+                                                <td>Is Correct</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-sm-8">
+                                                    <input type="text" name="answ0" class="form-control" />
+                                                </td>
+                                                <td class="col-sm-2">
+                                                    <input type="checkbox" name="iscorrect0" class="form-control dyn-checkbox"/>
+                                                </td>
+                                                <td class="col-sm-2">
+                                                    <a class="deleteRow"></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-8">
+                                                    <input type="text" name="answ0" class="form-control" />
+                                                </td>
+                                                <td class="col-sm-2">
+                                                    <input type="checkbox" name="iscorrect0" class="form-control dyn-checkbox"/>
+                                                </td>
+                                                <td class="col-sm-2">
+                                                    <a class="deleteRow"></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5" style="text-align: left;">
+                                                    <input type="button" class="btn-md btn-default" id="addrow" value="Add Row" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="submit" class="btn btn-submit">Submit</button>
+                                </div>
+                            </fieldset>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var counter = 2;
+
+                $("#addrow").on("click", function () {
+                    var newRow = $("<tr>");
+                    var cols = "";
+
+                    cols += '<td><input type="text" class="form-control" name="answ' + counter + '"/></td>';
+                    cols += '<td><input type="checkbox" class="form-control dyn-checkbox" name="iscorrect' + counter + '"/></td>';
+                    cols += '<td><input type="button" class="ibtnDel btn btn-md btn-next "  value="Delete" /></td>';
+                    cols += '</tr>';
+                    newRow.append(cols);
+                    $("table").append(newRow);
+                    counter++;
+                });
+
+
+
+                $("table").on("click", ".ibtnDel", function (event) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                });
+
+                if (("select")[0].value !== "T03") {
+                    $('.dyn-checkbox').on('change', function () {
+                        $('.dyn-checkbox').not(this).prop('checked', false);
+                    });
+                }
+            });
+        </script>
+    </h:body>
+</html>
+
