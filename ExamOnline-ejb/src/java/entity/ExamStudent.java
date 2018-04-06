@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamStudent.findAll", query = "SELECT e FROM ExamStudent e")
     , @NamedQuery(name = "ExamStudent.findByExamId", query = "SELECT e FROM ExamStudent e WHERE e.examStudentPK.examId = :examId")
     , @NamedQuery(name = "ExamStudent.findByStudentId", query = "SELECT e FROM ExamStudent e WHERE e.examStudentPK.studentId = :studentId")
-    , @NamedQuery(name = "ExamStudent.findByResult", query = "SELECT e FROM ExamStudent e WHERE e.result = :result")})
+    , @NamedQuery(name = "ExamStudent.findByResult", query = "SELECT e FROM ExamStudent e WHERE e.result = :result")
+    , @NamedQuery(name = "ExamStudent.findByStartTime", query = "SELECT e FROM ExamStudent e WHERE e.startTime = :startTime")
+    , @NamedQuery(name = "ExamStudent.findByEndTime", query = "SELECT e FROM ExamStudent e WHERE e.endTime = :endTime")})
 public class ExamStudent implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +38,12 @@ public class ExamStudent implements Serializable {
     protected ExamStudentPK examStudentPK;
     @Column(name = "_result")
     private Integer result;
+    @Column(name = "_start_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
+    @Column(name = "_end_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endTime;
     @JoinColumn(name = "_exam_id", referencedColumnName = "_id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Exam exam;
@@ -65,6 +76,22 @@ public class ExamStudent implements Serializable {
 
     public void setResult(Integer result) {
         this.result = result;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Exam getExam() {

@@ -8,12 +8,9 @@ package entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,41 +26,41 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c")
-    , @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id")
-    , @NamedQuery(name = "Class.findByDescription", query = "SELECT c FROM Class c WHERE c.description = :description")
-    , @NamedQuery(name = "Class.findByStatus", query = "SELECT c FROM Class c WHERE c.status = :status")})
-public class Class implements Serializable {
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
+    , @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id")
+    , @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")
+    , @NamedQuery(name = "Role.findByStatus", query = "SELECT r FROM Role r WHERE r.status = :status")})
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 7)
+    @Size(min = 1, max = 3)
     @Column(name = "_id")
     private String id;
-    @Size(max = 100)
-    @Column(name = "_description")
-    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "_name")
+    private String name;
     @Basic(optional = false)
     @NotNull
     @Column(name = "_status")
     private boolean status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-    private List<Student> studentList;
-    @JoinColumn(name = "_user_id", referencedColumnName = "_id")
-    @ManyToOne(optional = false)
-    private User userId;
+    @OneToMany(mappedBy = "roleId")
+    private List<User> userList;
 
-    public Class() {
+    public Role() {
     }
 
-    public Class(String id) {
+    public Role(String id) {
         this.id = id;
     }
 
-    public Class(String id, boolean status) {
+    public Role(String id, String name, boolean status) {
         this.id = id;
+        this.name = name;
         this.status = status;
     }
 
@@ -75,12 +72,12 @@ public class Class implements Serializable {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean getStatus() {
@@ -92,20 +89,12 @@ public class Class implements Serializable {
     }
 
     @XmlTransient
-    public List<Student> getStudentList() {
-        return studentList;
+    public List<User> getUserList() {
+        return userList;
     }
 
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     @Override
@@ -118,10 +107,10 @@ public class Class implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Class)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        Class other = (Class) object;
+        Role other = (Role) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -130,7 +119,7 @@ public class Class implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Class[ id=" + id + " ]";
+        return "entity.Role[ id=" + id + " ]";
     }
     
 }

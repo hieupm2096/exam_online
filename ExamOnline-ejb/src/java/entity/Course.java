@@ -12,7 +12,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -58,6 +60,9 @@ public class Course implements Serializable {
     private List<Exam> examList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private List<Question> questionList;
+    @JoinColumn(name = "_user_id", referencedColumnName = "_id")
+    @ManyToOne
+    private User userId;
 
     public Course() {
     }
@@ -128,6 +133,14 @@ public class Course implements Serializable {
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

@@ -6,9 +6,11 @@
 package facade;
 
 import entity.Exam;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,18 @@ public class ExamFacade extends AbstractFacade<Exam> {
         super(Exam.class);
     }
     
+    public String generateExamId() {
+        Query query = em.createNamedQuery("Exam.findLast", Exam.class);
+        List<Exam> exams = query.setMaxResults(1).getResultList();
+        if (exams != null) {
+            String id = exams.get(0).getId();
+            if (!id.equals("E999999")) {
+                int number = Integer.parseInt(id.substring(1)) + 1;
+                return "E" + String.format("%06d", number);
+            }
+        } else {
+            return "E000001";
+        }
+        return null;
+    }
 }

@@ -33,8 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q")
     , @NamedQuery(name = "Question.findById", query = "SELECT q FROM Question q WHERE q.id = :id")
     , @NamedQuery(name = "Question.findByContent", query = "SELECT q FROM Question q WHERE q.content = :content")
-    , @NamedQuery(name = "Question.findByPoint", query = "SELECT q FROM Question q WHERE q.point = :point")
-    , @NamedQuery(name = "Question.findByStatus", query = "SELECT q FROM Question q WHERE q.status = :status")})
+    , @NamedQuery(name = "Question.findByStatus", query = "SELECT q FROM Question q WHERE q.status = :status")
+    , @NamedQuery(name = "Question.findLast", query = "SELECT q FROM Question q ORDER BY q.id DESC")})
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,10 +47,6 @@ public class Question implements Serializable {
     @Size(max = 200)
     @Column(name = "_content")
     private String content;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "_point")
-    private int point;
     @Basic(optional = false)
     @NotNull
     @Column(name = "_status")
@@ -73,9 +69,8 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public Question(String id, int point, boolean status) {
+    public Question(String id, boolean status) {
         this.id = id;
-        this.point = point;
         this.status = status;
     }
 
@@ -93,14 +88,6 @@ public class Question implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
     }
 
     public boolean getStatus() {

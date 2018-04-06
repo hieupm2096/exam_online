@@ -10,10 +10,10 @@ function bar_progress(progress_line_object, direction) {
 	var number_of_steps = progress_line_object.data('number-of-steps');
 	var now_value = progress_line_object.data('now-value');
 	var new_value = 0;
-	if(direction == 'right') {
+	if(direction === 'right') {
 		new_value = now_value + ( 100 / number_of_steps );
 	}
-	else if(direction == 'left') {
+	else if(direction === 'left') {
 		new_value = now_value - ( 100 / number_of_steps );
 	}
 	progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
@@ -51,8 +51,8 @@ jQuery(document).ready(function() {
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
     	
     	// fields validation
-    	parent_fieldset.find('input[type="text"], input[type="password"], textarea, select').each(function() {
-    		if( $(this).val() == "" ) {
+    	parent_fieldset.find('input[type="text"]:not(".optional-answer"), input[type="password"], textarea, select').each(function() {
+    		if( $(this).val() === "" ) {
     			$(this).addClass('input-error');
     			next_step = false;
     		}
@@ -99,8 +99,8 @@ jQuery(document).ready(function() {
     $('.f1').on('submit', function(e) {
     	
     	// fields validation
-    	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
-    		if( $(this).val() == "" ) {
+    	$(this).find('input[type="text"]:not(".optional-answer"), input[type="password"], textarea, select').each(function() {
+    		if( $(this).val() === "" ) {
     			e.preventDefault();
     			$(this).addClass('input-error');
     		}

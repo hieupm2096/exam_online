@@ -7,12 +7,15 @@ package controller;
 
 import entity.Answer;
 import entity.Course;
+import entity.Question;
 import entity.QuestionType;
+import facade.AnswerFacade;
 import facade.CourseFacade;
 import facade.QuestionFacade;
 import facade.QuestionTypeFacade;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -23,27 +26,31 @@ import javax.inject.Named;
  */
 @Named(value = "questionBean")
 @RequestScoped
-public class QuestionBean implements Serializable{
+public class QuestionBean implements Serializable {
 
     @EJB
-    private CourseFacade courseFacade;
+    private AnswerFacade answerFacade;
+
+    @EJB
+    private QuestionFacade questionFacade;
 
     @EJB
     private QuestionTypeFacade questionTypeFacade;
 
     @EJB
-    private QuestionFacade questionFacade;
-    
-    private List<QuestionType> typeList;
+    private CourseFacade courseFacade;
+
+    private List<QuestionType> questionTypeList;
     private List<Course> courseList;
     private List<Answer> answerList;
-    
-    private QuestionType questionType;
-    private String content;
-    private int point;
-    private Course course;
 
-    public List<QuestionType> getTypeList() {
+    private String questionTypeId;
+    private String content;
+    private String courseId;
+
+    private String[][] answers;
+
+    public List<QuestionType> getQuestionTypeList() {
         return questionTypeFacade.findAll();
     }
 
@@ -55,14 +62,14 @@ public class QuestionBean implements Serializable{
         return answerList;
     }
 
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
+    public String getQuestionTypeId() {
+        return questionTypeId;
     }
 
-    public QuestionType getQuestionType() {
-        return questionType;
+    public void setQuestionTypeId(String questionTypeId) {
+        this.questionTypeId = questionTypeId;
     }
-    
+
     public String getContent() {
         return content;
     }
@@ -70,29 +77,49 @@ public class QuestionBean implements Serializable{
     public void setContent(String content) {
         this.content = content;
     }
-    
-    public void setQuestionType(QuestionType questionType) {
-        this.questionType = questionType;
+
+    public String getCourseId() {
+        return courseId;
     }
 
-    public int getPoint() {
-        return point;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
-    public void setPoint(int point) {
-        this.point = point;
+    public String[][] getAnswers() {
+        return answers;
     }
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
+    @PostConstruct
+    public void init() {
+        answers = new String[5][2];
     }
 
     public QuestionBean() {
+
     }
 
-    
+    public String createQuestion() {
+        Question q = new Question();
+        q.setId(questionFacade.generateQuestionId());
+        q.setContent(content);
+        q.setStatus(true);
+        q.setQuestionTypeId(questionTypeFacade.find(questionTypeId));
+        q.setCourseId(courseFacade.find(courseId));
+        questionFacade.create(q);
+
+        for (String[] answer : answers) {
+            if (answer != null && !answer[0].isEmpty()) {
+                createAnswer(answer[0], Boolean.parseBoolean(answer[1]), q);
+            }
+        }
+
+        return "index?faces-redirect=true";
+    }
+
+    private void createAnswer(String content, boolean isCorrect, Question question) {
+        String id = answerFacade.generateAnswerId();
+        Answer answer = new Answer(id, content, isCorrect, question);
+        answerFacade.create(answer);
+    }
 }

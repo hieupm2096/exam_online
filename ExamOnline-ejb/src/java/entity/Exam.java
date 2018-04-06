@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Exam.findById", query = "SELECT e FROM Exam e WHERE e.id = :id")
     , @NamedQuery(name = "Exam.findByName", query = "SELECT e FROM Exam e WHERE e.name = :name")
     , @NamedQuery(name = "Exam.findByDuration", query = "SELECT e FROM Exam e WHERE e.duration = :duration")
-    , @NamedQuery(name = "Exam.findByStartTime", query = "SELECT e FROM Exam e WHERE e.startTime = :startTime")})
+    , @NamedQuery(name = "Exam.findByStartTime", query = "SELECT e FROM Exam e WHERE e.startTime = :startTime")
+    , @NamedQuery(name = "Exam.findByNumOfQuestion", query = "SELECT e FROM Exam e WHERE e.numOfQuestion = :numOfQuestion")
+    , @NamedQuery(name = "Exam.findLast", query = "SELECT e FROM Exam e ORDER BY e.id DESC")})
 public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +60,8 @@ public class Exam implements Serializable {
     @Column(name = "_start_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
+    @Column(name = "_num_of_question")
+    private Integer numOfQuestion;
     @JoinTable(name = "examquestion", joinColumns = {
         @JoinColumn(name = "_exam_id", referencedColumnName = "_id")}, inverseJoinColumns = {
         @JoinColumn(name = "_question_id", referencedColumnName = "_id")})
@@ -111,6 +115,14 @@ public class Exam implements Serializable {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+    }
+
+    public Integer getNumOfQuestion() {
+        return numOfQuestion;
+    }
+
+    public void setNumOfQuestion(Integer numOfQuestion) {
+        this.numOfQuestion = numOfQuestion;
     }
 
     @XmlTransient

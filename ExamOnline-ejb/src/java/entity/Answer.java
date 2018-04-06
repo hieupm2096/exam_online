@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Answer.findAll", query = "SELECT a FROM Answer a")
     , @NamedQuery(name = "Answer.findById", query = "SELECT a FROM Answer a WHERE a.id = :id")
     , @NamedQuery(name = "Answer.findByContent", query = "SELECT a FROM Answer a WHERE a.content = :content")
-    , @NamedQuery(name = "Answer.findByIsCorrect", query = "SELECT a FROM Answer a WHERE a.isCorrect = :isCorrect")})
+    , @NamedQuery(name = "Answer.findByIsCorrect", query = "SELECT a FROM Answer a WHERE a.isCorrect = :isCorrect")
+    , @NamedQuery(name = "Answer.findLast", query = "SELECT a FROM Answer a ORDER BY a.id DESC")})
 public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,10 +59,12 @@ public class Answer implements Serializable {
         this.id = id;
     }
 
-    public Answer(String id, String content, boolean isCorrect) {
+    public Answer(String id, String content, boolean isCorrect, Question question) {
         this.id = id;
         this.content = content;
         this.isCorrect = isCorrect;
+        this.questionId = question;
+
     }
 
     public String getId() {
@@ -120,5 +123,5 @@ public class Answer implements Serializable {
     public String toString() {
         return "entity.Answer[ id=" + id + " ]";
     }
-    
+
 }

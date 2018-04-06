@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
     , @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
     , @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name")
-    , @NamedQuery(name = "User.findByUserType", query = "SELECT u FROM User u WHERE u.userType = :userType")
     , @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
     , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")
     , @NamedQuery(name = "User.findByStatus", query = "SELECT u FROM User u WHERE u.status = :status")})
@@ -48,8 +49,6 @@ public class User implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "_name")
     private String name;
-    @Column(name = "_user_type")
-    private Boolean userType;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 100)
     @Column(name = "_email")
@@ -63,8 +62,13 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "_status")
     private boolean status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+    @OneToMany(mappedBy = "userId")
+    private List<Course> courseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Class> classList;
+    @JoinColumn(name = "_role_id", referencedColumnName = "_id")
+    @ManyToOne
+    private Role roleId;
 
     public User() {
     }
@@ -96,14 +100,6 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Boolean getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Boolean userType) {
-        this.userType = userType;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -129,12 +125,29 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    public List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
+    }
+
+    @XmlTransient
     public List<Class> getClassList() {
         return classList;
     }
 
     public void setClassList(List<Class> classList) {
         this.classList = classList;
+    }
+
+    public Role getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
     }
 
     @Override
