@@ -39,8 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Exam.findByName", query = "SELECT e FROM Exam e WHERE e.name = :name")
     , @NamedQuery(name = "Exam.findByDuration", query = "SELECT e FROM Exam e WHERE e.duration = :duration")
     , @NamedQuery(name = "Exam.findByStartTime", query = "SELECT e FROM Exam e WHERE e.startTime = :startTime")
-    , @NamedQuery(name = "Exam.findByNumOfQuestion", query = "SELECT e FROM Exam e WHERE e.numOfQuestion = :numOfQuestion")
-    , @NamedQuery(name = "Exam.findLast", query = "SELECT e FROM Exam e ORDER BY e.id DESC")})
+    , @NamedQuery(name = "Exam.findByNumOfQuestion", query = "SELECT e FROM Exam e WHERE e.numOfQuestion = :numOfQuestion")})
 public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +69,9 @@ public class Exam implements Serializable {
     @JoinColumn(name = "_course_id", referencedColumnName = "_id")
     @ManyToOne(optional = false)
     private Course courseId;
+    @JoinColumn(name = "_user_id", referencedColumnName = "_id")
+    @ManyToOne
+    private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam")
     private List<ExamStudent> examStudentList;
 
@@ -140,6 +142,14 @@ public class Exam implements Serializable {
 
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @XmlTransient

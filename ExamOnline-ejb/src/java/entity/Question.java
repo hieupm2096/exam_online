@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q")
     , @NamedQuery(name = "Question.findById", query = "SELECT q FROM Question q WHERE q.id = :id")
     , @NamedQuery(name = "Question.findByContent", query = "SELECT q FROM Question q WHERE q.content = :content")
-    , @NamedQuery(name = "Question.findByStatus", query = "SELECT q FROM Question q WHERE q.status = :status")
-    , @NamedQuery(name = "Question.findLast", query = "SELECT q FROM Question q ORDER BY q.id DESC")})
+    , @NamedQuery(name = "Question.findByStatus", query = "SELECT q FROM Question q WHERE q.status = :status")})
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;

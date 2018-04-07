@@ -47,19 +47,19 @@
                             <fieldset>
                                 <h4>Create question:</h4>
                                 <div class="form-group">
-                                    <label class="sr-only" for="sl-question-type">Type</label>
-                                    <h:selectOneMenu id="sl-question-type" value="#{questionBean.questionTypeId}" class="form-control" converter="#{questionTypeConverter}">
-                                        <f:selectItem itemLabel="Question Type..." />
+                                    <label class="sr-only" for="cq-form:sl-question-type">Type</label>
+                                    <h:selectOneMenu id="sl-question-type" value="#{questionBean.questionTypeId}" class="form-control">
+                                        <f:selectItem itemLabel="Question type..." />
                                         <f:selectItems value="#{questionBean.questionTypeList}" var="t" itemValue="#{t.id}" itemLabel="#{t.title}" />
                                     </h:selectOneMenu>
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="txt-content">Content</label>
+                                    <label class="sr-only" for="cq-form:txt-content">Content</label>
                                     <h:inputTextarea id="txt-content" value="#{questionBean.content}" class="form-control" a:placeholder="Question..." />
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="sl-course">Course</label>
-                                    <h:selectOneMenu id="sl-course" value="#{questionBean.courseId}" class="form-control" converter="#{courseConverter}" >
+                                    <label class="sr-only" for="cq-form:sl-course">Course</label>
+                                    <h:selectOneMenu id="sl-course" value="#{questionBean.courseId}" class="form-control" >
                                         <f:selectItem itemValue="" itemLabel="Course..." />
                                         <f:selectItems value="#{questionBean.courseList}" var="c" itemValue="#{c.id}" itemLabel="#{c.name}" />
                                     </h:selectOneMenu>

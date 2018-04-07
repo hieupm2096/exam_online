@@ -63,6 +63,8 @@ public class User implements Serializable {
     @Column(name = "_status")
     private boolean status;
     @OneToMany(mappedBy = "userId")
+    private List<Exam> examList;
+    @OneToMany(mappedBy = "userId")
     private List<Course> courseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Class> classList;
@@ -122,6 +124,15 @@ public class User implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    @XmlTransient
+    public List<Exam> getExamList() {
+        return examList;
+    }
+
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
     }
 
     @XmlTransient

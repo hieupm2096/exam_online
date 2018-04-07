@@ -1,12 +1,138 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Create Exam</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500" />
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="assets/css/form-elements.css" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+
+        <!--select2-->
+        <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />-->
+
     </h:head>
     <h:body>
-        Hello from Facelets
+        <div class="top-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 form-box">
+                        <h:form class="f1" id="ce-form">
+                            <h3>Create Exam</h3>
+                            <p>Fill in the form to create exam</p>
+                            <div class="f1-steps">
+                                <div class="f1-progress">
+                                    <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" style="width: 12.5%;" />
+                                </div>
+                                <div class="f1-step active" style="width: 25%;">
+                                    <div class="f1-step-icon"><i class="fa fa-file-text-o"></i></div>
+                                    <p>exam</p>
+                                </div>
+                                <div class="f1-step" style="width: 25%;">
+                                    <div class="f1-step-icon"><i class="fa fa-users"></i></div>
+                                    <p>student</p>
+                                </div>
+                                <div class="f1-step" style="width: 25%;">
+                                    <div class="f1-step-icon"><i class="fa fa-question"></i></div>
+                                    <p>question</p>
+                                </div>
+                                <div class="f1-step" style="width: 25%;">
+                                    <div class="f1-step-icon"><i class="fa fa-check"></i></div>
+                                    <p>finish</p>
+                                </div>
+                            </div>
+
+                            <fieldset>
+                                <h4>Create exam:</h4>
+                                <div class="form-group">
+                                    <label class="sr-only" for="ce-form:txt-name">Examination Name</label>
+                                    <h:inputText id="txt-name" value="#{examBean.name}" class="form-control" a:placeholder="Examination name..." />
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="ce-form:sl-num-of-question">Number of Question</label>
+                                    <h:selectOneMenu id="sl-num-of-question" value="#{examBean.numOfQuestion}" class="form-control">
+                                        <f:selectItem itemValue="" itemLabel="Number of question..." />
+                                        <f:selectItem itemValue="10" itemLabel="10" />
+                                        <f:selectItem itemValue="20" itemLabel="20" />
+                                        <f:selectItem itemValue="40" itemLabel="40" />
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="ce-form:sl-duration">Duration</label>
+                                    <h:selectOneMenu id="sl-duration" value="#{examBean.duration}" class="form-control">
+                                        <f:selectItem itemValue="" itemLabel="Duration (min)..." />
+                                        <f:selectItem itemValue="15" itemLabel="15" />
+                                        <f:selectItem itemValue="30" itemLabel="30" />
+                                        <f:selectItem itemValue="45" itemLabel="45" />
+                                        <f:selectItem itemValue="60" itemLabel="60" />
+                                        <f:selectItem itemValue="90" itemLabel="90" />
+                                    </h:selectOneMenu>
+                                </div>
+
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <h4>Add student:</h4>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <h4>Add questions:</h4>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div>
+                                    <h2 class="text-center" style="color: #f35b3f">Complete!</h2>
+                                    <h4 class="text-center">Click on "Submit" to submit the exam</h4>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <h:commandButton type="submit" class="btn btn-submit" value="Submit" />
+                                </div>
+                            </fieldset>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+
+        <!--select2-->
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" />-->
+
+        <script>
+            $(function () {
+//                $('#ce-form\\:sl-num-of-question').select2({
+//                    tags: true
+//                });
+            });
+        </script>
     </h:body>
 </html>
 

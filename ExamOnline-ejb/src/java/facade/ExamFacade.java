@@ -32,7 +32,8 @@ public class ExamFacade extends AbstractFacade<Exam> {
     }
     
     public String generateExamId() {
-        Query query = em.createNamedQuery("Exam.findLast", Exam.class);
+        String findLast = "SELECT e FROM Exam e ORDER BY e.id DESC";
+        Query query = em.createQuery(findLast, Exam.class);
         List<Exam> exams = query.setMaxResults(1).getResultList();
         if (exams != null) {
             String id = exams.get(0).getId();

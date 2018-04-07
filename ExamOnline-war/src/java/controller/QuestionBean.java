@@ -119,7 +119,8 @@ public class QuestionBean implements Serializable {
 
     private void createAnswer(String content, boolean isCorrect, Question question) {
         String id = answerFacade.generateAnswerId();
-        Answer answer = new Answer(id, content, isCorrect, question);
+        Answer answer = new Answer(id, content, isCorrect);
+        answer.setQuestionId(question);
         answerFacade.create(answer);
     }
 }

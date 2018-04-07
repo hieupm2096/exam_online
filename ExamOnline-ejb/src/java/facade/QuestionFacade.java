@@ -30,16 +30,17 @@ public class QuestionFacade extends AbstractFacade<Question> {
     public QuestionFacade() {
         super(Question.class);
     }
-    
+
     public String generateQuestionId() {
-        Query query = em.createNamedQuery("Question.findLast", Question.class);
+        String findLast = "SELECT q FROM Question q ORDER BY q.id DESC";
+        Query query = em.createQuery(findLast, Question.class);
         try {
             Question q = (Question) query.setMaxResults(1).getResultList().get(0);
             String id = q.getId();
             if (!id.equals("Q999999")) {
                 int number = Integer.parseInt(id.substring(1)) + 1;
                 return "Q" + String.format("%06d", number);
-}
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             return "Q000001";
         }

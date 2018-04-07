@@ -31,7 +31,8 @@ public class AnswerFacade extends AbstractFacade<Answer> {
     }
 
     public String generateAnswerId() {
-        Query query = em.createNamedQuery("Answer.findLast", Answer.class);
+        String findLast = "SELECT a FROM Answer a ORDER BY a.id DESC";
+        Query query = em.createQuery(findLast, Answer.class);
         try {
             Answer a = (Answer) query.setMaxResults(1).getResultList().get(0);
             String id = a.getId();
