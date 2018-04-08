@@ -9,6 +9,7 @@ import entity.Student;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,18 @@ public class StudentFacade extends AbstractFacade<Student> {
     public StudentFacade() {
         super(Student.class);
     }
-    
+
+    public Student findAvailableStudentById(String id) {
+        String findAvailableStudentById = "SELECT s FROM Student s WHERE s.id = :id AND s.status = 1";
+        Student student = null;
+        try {
+            student = (Student) em.createQuery(findAvailableStudentById, Student.class)
+                    .setParameter("id", id)
+                    .getResultList()
+                    .get(0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+
+        }
+        return student;
+    }
 }

@@ -59,15 +59,6 @@
                                     <h:inputText id="txt-name" value="#{examBean.name}" class="form-control" a:placeholder="Examination name..." />
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="ce-form:sl-num-of-question">Number of Question</label>
-                                    <h:selectOneMenu id="sl-num-of-question" value="#{examBean.numOfQuestion}" class="form-control">
-                                        <f:selectItem itemValue="" itemLabel="Number of question..." />
-                                        <f:selectItem itemValue="10" itemLabel="10" />
-                                        <f:selectItem itemValue="20" itemLabel="20" />
-                                        <f:selectItem itemValue="40" itemLabel="40" />
-                                    </h:selectOneMenu>
-                                </div>
-                                <div class="form-group">
                                     <label class="sr-only" for="ce-form:sl-duration">Duration</label>
                                     <h:selectOneMenu id="sl-duration" value="#{examBean.duration}" class="form-control">
                                         <f:selectItem itemValue="" itemLabel="Duration (min)..." />
@@ -86,7 +77,60 @@
 
                             <fieldset>
                                 <h4>Add student:</h4>
+                                <div class="table-responsive">
+                                    <h:dataTable value="#{examBean.students}" var="s" id="tbl-student">
+                                        <h:column>
+                                            <f:facet name="header">ID</f:facet>
+                                                #{s.id}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Name</f:facet>
+                                                #{s.name}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Class</f:facet>
+                                                #{s.classId.id}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Email</f:facet>
+                                                #{s.email}
+                                        </h:column>
+                                    </h:dataTable>
+                                    <h:inputText value="#{examBean.studentId}" id="txt-student-id" />
+                                    <h:inputText value="#{examBean.classId}" id="txt-class-id" />
+
+                                    <h:commandButton value="Add Student" action="#{examBean.addStudentToList()}">
+                                        <f:ajax execute="txt-student-id" render="tbl-student" />
+                                    </h:commandButton>
+                                    <h:commandButton value="Add Class" action="#{examBean.addClassToList()}">
+                                        <f:ajax execute="txt-class-id" render="tbl-student" />
+                                    </h:commandButton>
+                                </div>
                                 <div class="f1-buttons">
+                                    <h:dataTable value="#{examBean.questions}" var="q" id="tbl-question">
+                                        <h:column>
+                                            <f:facet name="header">ID</f:facet>
+                                            #{q.id}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Question</f:facet>
+                                            #{q.content}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Type</f:facet>
+                                            #{q.questionTypeId.title}
+                                        </h:column>
+                                    </h:dataTable>
+                                    <h:inputText value="#{examBean.questionId}" id="txt-question-id" />
+                                    <h:inputText value="#{examBean.courseId}" id="txt-course-id" />
+                                    
+                                    <h:commandButton value="Add Question" action="" >
+                                        <f:ajax execute="txt-question-id" render="tbl-question" />
+                                    </h:commandButton>
+                                    <h:commandButton value="Add Question Automatic" action="" >
+                                        <f:ajax execute="txt-course-id" render="tbl-question" />
+                                    </h:commandButton>
+                                    
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>
@@ -94,6 +138,15 @@
 
                             <fieldset>
                                 <h4>Add questions:</h4>
+                                <div class="form-group">
+                                    <label class="sr-only" for="ce-form:sl-num-of-question">Number of Question</label>
+                                    <h:selectOneMenu id="sl-num-of-question" value="#{examBean.numOfQuestion}" class="form-control">
+                                        <f:selectItem itemValue="" itemLabel="Number of question..." />
+                                        <f:selectItem itemValue="10" itemLabel="10" />
+                                        <f:selectItem itemValue="20" itemLabel="20" />
+                                        <f:selectItem itemValue="40" itemLabel="40" />
+                                    </h:selectOneMenu>
+                                </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
