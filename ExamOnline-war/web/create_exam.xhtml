@@ -78,7 +78,7 @@
                             <fieldset>
                                 <h4>Add student:</h4>
                                 <div class="table-responsive">
-                                    <h:dataTable value="#{examBean.students}" var="s" id="tbl-student">
+                                    <h:dataTable value="#{examBean.students}" var="s" id="tbl-student" class="table-bordered">
                                         <h:column>
                                             <f:facet name="header">ID</f:facet>
                                                 #{s.id}
@@ -106,31 +106,7 @@
                                         <f:ajax execute="txt-class-id" render="tbl-student" />
                                     </h:commandButton>
                                 </div>
-                                <div class="f1-buttons">
-                                    <h:dataTable value="#{examBean.questions}" var="q" id="tbl-question">
-                                        <h:column>
-                                            <f:facet name="header">ID</f:facet>
-                                            #{q.id}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">Question</f:facet>
-                                            #{q.content}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">Type</f:facet>
-                                            #{q.questionTypeId.title}
-                                        </h:column>
-                                    </h:dataTable>
-                                    <h:inputText value="#{examBean.questionId}" id="txt-question-id" />
-                                    <h:inputText value="#{examBean.courseId}" id="txt-course-id" />
-                                    
-                                    <h:commandButton value="Add Question" action="" >
-                                        <f:ajax execute="txt-question-id" render="tbl-question" />
-                                    </h:commandButton>
-                                    <h:commandButton value="Add Question Automatic" action="" >
-                                        <f:ajax execute="txt-course-id" render="tbl-question" />
-                                    </h:commandButton>
-                                    
+                                <div class="f1-buttons">                                    
                                     <button type="button" class="btn btn-previous">Previous</button>
                                     <button type="button" class="btn btn-next">Next</button>
                                 </div>
@@ -142,10 +118,38 @@
                                     <label class="sr-only" for="ce-form:sl-num-of-question">Number of Question</label>
                                     <h:selectOneMenu id="sl-num-of-question" value="#{examBean.numOfQuestion}" class="form-control">
                                         <f:selectItem itemValue="" itemLabel="Number of question..." />
+                                        <f:selectItem itemValue="1" itemLabel="1" />
                                         <f:selectItem itemValue="10" itemLabel="10" />
                                         <f:selectItem itemValue="20" itemLabel="20" />
                                         <f:selectItem itemValue="40" itemLabel="40" />
                                     </h:selectOneMenu>
+                                </div>
+                                <div class="table-responsive">
+                                    <h:dataTable value="#{examBean.questions}" var="q" id="tbl-question" class="table-bordered">
+                                        <h:column>
+                                            <f:facet name="header">ID</f:facet>
+                                                #{q.id}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Question</f:facet>
+                                                #{q.content}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Type</f:facet>
+                                                #{q.questionTypeId.title}
+                                        </h:column>
+                                    </h:dataTable>
+                                    <h:inputText value="#{examBean.questionId}" id="txt-question-id" />
+                                    <h:inputText value="#{examBean.courseId}" id="txt-course-id" />
+
+                                    <h:commandButton value="Add Question" action="#{examBean.addQuestionToList()}" >
+                                        <f:ajax execute="txt-question-id" render="tbl-question" />
+                                        <f:ajax execute="sl-num-of-question" render="tbl-question" />
+                                    </h:commandButton>
+                                    <h:commandButton value="Add Question Automatic" action="#{examBean.addQuestionToListAuto()}" >
+                                        <f:ajax execute="txt-course-id" render="tbl-question" />
+                                        <f:ajax execute="sl-num-of-question" render="tbl-question" />
+                                    </h:commandButton>
                                 </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
@@ -160,7 +164,7 @@
                                 </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Previous</button>
-                                    <h:commandButton type="submit" class="btn btn-submit" value="Submit" />
+                                    <h:commandButton action="#{examBean.createExam()}" type="submit" class="btn btn-submit" value="Submit" />
                                 </div>
                             </fieldset>
                         </h:form>

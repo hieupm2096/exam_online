@@ -5,7 +5,9 @@
  */
 package facade;
 
+import entity.Course;
 import entity.Question;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -31,19 +33,49 @@ public class QuestionFacade extends AbstractFacade<Question> {
         super(Question.class);
     }
 
-    public String generateQuestionId() {
+    public Question findLast() {
         String findLast = "SELECT q FROM Question q ORDER BY q.id DESC";
-        Query query = em.createQuery(findLast, Question.class);
+        Question q = null;
         try {
-            Question q = (Question) query.setMaxResults(1).getResultList().get(0);
+            q = (Question) em.createQuery(findLast, Question.class)
+                    .setMaxResults(1)
+                    .getResultList()
+                    .get(0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+
+        }
+        return q;
+    }
+
+    public String generateQuestionId() {
+        Question q = findLast();
+        if (q != null) {
             String id = q.getId();
             if (!id.equals("Q999999")) {
                 int number = Integer.parseInt(id.substring(1)) + 1;
                 return "Q" + String.format("%06d", number);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return "Q000001";
         }
-        return null;
+        return "Q000001";
+    }
+
+    public Question findAvailableQuestionById(String id) {
+        String findAvailableQuestionById = "SELECT q FROM Question q WHERE q.id = :id AND q.status = 1";
+        Question q = null;
+        try {
+            q = (Question) em.createQuery(findAvailableQuestionById)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        return q;
+    }
+
+    public List<Question> findQuestionByCourse(Course course) {
+        String findQuestionByCourseId = "SELECT q FROM Question q WHERE q.courseId = :courseId";
+        return em.createQuery(findQuestionByCourseId)
+                .setParameter("courseId", course)
+                .getResultList();
     }
 }

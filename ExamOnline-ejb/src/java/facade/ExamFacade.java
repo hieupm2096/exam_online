@@ -30,20 +30,24 @@ public class ExamFacade extends AbstractFacade<Exam> {
     public ExamFacade() {
         super(Exam.class);
     }
-    
-    public String generateExamId() {
+
+    public Exam findLast() {
         String findLast = "SELECT e FROM Exam e ORDER BY e.id DESC";
-        Query query = em.createQuery(findLast, Exam.class);
-        List<Exam> exams = query.setMaxResults(1).getResultList();
-        if (exams != null) {
-            String id = exams.get(0).getId();
+        List<Exam> exam = em.createQuery(findLast)
+                .setMaxResults(1)
+                .getResultList();
+        return (exam != null && !exam.isEmpty()) ? exam.get(0) : null;
+    }
+
+    public String generateExamId() {
+        Exam exam = findLast();
+        if (exam != null) {
+            String id = exam.getId();
             if (!id.equals("E999999")) {
                 int number = Integer.parseInt(id.substring(1)) + 1;
                 return "E" + String.format("%06d", number);
             }
-        } else {
-            return "E000001";
         }
-        return null;
+        return "E000001";
     }
 }
