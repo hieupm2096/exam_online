@@ -29,4 +29,13 @@ public class UserFacade extends AbstractFacade<User> {
         super(User.class);
     }
     
+    public User findUserByEmailAndPassword(String email, String password) {
+        User user = null;
+        if (email != null && password != null) {
+            String findUserByEmailAndPassword = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password";
+            
+        }
+        // else  email or/and password is empty
+        return user;
+    }
 }
