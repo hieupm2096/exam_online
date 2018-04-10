@@ -2,8 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:a="http://java.sun.com/jsf/passthrough">
+      xmlns:a="http://java.sun.com/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <f:metadata>
+            <f:viewAction action="#{authenticationBean.isLoggedInForwardHome()}" />
+        </f:metadata>
         <meta charset="utf-8" />
         <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png" />
         <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
@@ -27,39 +31,38 @@
                 <div class="full-page-background" style="background-image: url('./assets/img/login.jpeg') "/>
                 <div class="content">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                                <h:form id="login-form">
-                                    <div class="card card-login card-hidden">
-                                        <div class="card-header text-center" data-background-color="rose">
-                                            <h4 class="card-title">Exam Online System</h4>
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">email</i>
-                                                </span>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Email address</label>
-                                                    <h:inputText value="#{authenticationBean.email}" a:type="email" class="form-control" />
-                                                </div>
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">lock_outline</i>
-                                                </span>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Password</label>
-                                                    <h:inputSecret value="#{authenticationBean.password}" class="form-control" />
-                                                </div>
+
+                        <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                            <h:form id="login-form">
+                                <div class="card card-signup card-hidden">
+                                    <div class="header header-primary text-center" data-background-color="rose">
+                                        <h4 class="card-title">Log in</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">email</i>
+                                            </span>
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Email address</label>
+                                                <h:inputText value="#{authenticationBean.email}" a:type="email" class="form-control" />
                                             </div>
                                         </div>
-                                        <div class="footer text-center">
-                                            <h:commandButton action="#{authenticationBean.login()}" class="btn btn-rose btn-simple btn-wd btn-lg" value="Login" />
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">lock_outline</i>
+                                            </span>
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Password</label>
+                                                <h:inputSecret value="#{authenticationBean.password}" class="form-control" />
+                                            </div>
                                         </div>
                                     </div>
-                                </h:form>
-                            </div>
+                                    <div class="footer text-center">
+                                        <h:commandButton action="#{authenticationBean.login()}" class="btn btn-rose btn-simple btn-wd btn-lg" value="Login" />
+                                    </div>
+                                </div>
+                            </h:form>
                         </div>
                     </div>
                 </div>
@@ -68,7 +71,7 @@
                         <p class="copyright text-center">
                             &copy;
                             <script>
-                                document.write(new Date().getFullYear())
+                                document.write(new Date().getFullYear());
                             </script>
                             <a href="http://www.creative-tim.com"> Creative Tim </a>, made with love for a better web
                         </p>
