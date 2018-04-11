@@ -40,15 +40,19 @@ public class QuestionBean implements Serializable {
     @EJB
     private CourseFacade courseFacade;
 
+    private List<Question> questionList;
     private List<QuestionType> questionTypeList;
     private List<Course> courseList;
-    private List<Answer> answerList;
 
     private String questionTypeId;
     private String content;
     private String courseId;
 
     private String[][] answers;
+    
+    public List<Question> getQuestionList() {
+        return questionFacade.findAll();
+    }
 
     public List<QuestionType> getQuestionTypeList() {
         return questionTypeFacade.findAll();
@@ -56,10 +60,6 @@ public class QuestionBean implements Serializable {
 
     public List<Course> getCourseList() {
         return courseFacade.findAll();
-    }
-
-    public List<Answer> getAnswerList() {
-        return answerList;
     }
 
     public String getQuestionTypeId() {
