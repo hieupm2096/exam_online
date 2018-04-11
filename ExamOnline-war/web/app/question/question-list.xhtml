@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <ui:include src="../../WEB-INF/template/css-include.xhtml" />
-        <title>Home | Exam Online System</title>
+        <title>Questions | Exam Online System</title>
     </h:head>
     <h:body>
         <div class="wrapper">
@@ -46,10 +46,11 @@
                                             <h:column headerClass="disabled-sorting text-right">
                                                 <f:facet name="header">Actions</f:facet>
                                                 <h:link class="btn btn-simple btn-info btn-icon edit" outcome="question-details">
-                                                    <i class="material-icons">dvr</i>
+                                                    <i class="material-icons">edit</i>
                                                     <f:param name="ac" value="ud" />
                                                     <f:param name="id" value="#{q.id}" />
                                                 </h:link>
+                                                
                                                 <h:link class="btn btn-simple btn-danger btn-icon remove" outcome="question-list">
                                                     <i class="material-icons">close</i>
                                                     <f:param name="ac" value="rm" />
