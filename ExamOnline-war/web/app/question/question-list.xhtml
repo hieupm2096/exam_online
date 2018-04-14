@@ -48,15 +48,19 @@
                                                     </h:column>
                                                     <h:column headerClass="disabled-sorting text-center td-actions">
                                                         <f:facet name="header">Actions</f:facet>
-                                                        <h:link class="btn btn-simple btn-info btn-icon edit" outcome="question-details" rel="tooltip" a:data-original-title="Question Details">
-                                                            <i class="material-icons">edit</i>
-                                                            <f:param name="id" value="#{q.id}" />
-                                                        </h:link>
+                                                        <h:form id="rq-form">
+                                                            <h:link class="btn btn-simple btn-info btn-icon edit" outcome="question-details" rel="tooltip" a:data-original-title="Question Details">
+                                                                <i class="material-icons">edit</i>
+                                                                <f:param name="id" value="#{q.id}" />
+                                                            </h:link>
 
-                                                        <h:link class="btn btn-simple btn-danger btn-icon remove" outcome="question-list" rel="tooltip" a:data-original-title="Remove Question">
-                                                            <i class="material-icons">close</i>
-                                                            <f:param name="id" value="#{q.id}" />
-                                                        </h:link>
+                                                            <h:commandLink 
+                                                                action="#{questionBean.removeQuestion(q)}" 
+                                                                class="btn btn-simple btn-danger btn-icon remove" 
+                                                                rel="tooltip" a:data-original-title="Remove Question">
+                                                                <i class="material-icons">close</i>
+                                                            </h:commandLink>
+                                                        </h:form>
                                                     </h:column>
                                                 </h:dataTable>
                                             </div>
@@ -98,7 +102,6 @@
                 }
 
             });
-
 
             var table = $('#datatables').DataTable();
 
