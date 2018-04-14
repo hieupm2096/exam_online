@@ -33,14 +33,14 @@
                     </a>
                     <div class="collapse #{request.requestURI.contains('/question/') ? 'in' : ''}" id="questions">
                         <ul class="nav">
-                            <li class="#{request.requestURI == '/ExamOnline-war/app/question/question-list.xhtml' ? 'active' : ''}">
+                            <li class="#{request.requestURI == '/ExamOnline-war/app/question/question-list.xhtml' || request.requestURI == '/ExamOnline-war/app/question/question-details.xhtml' ? 'active' : ''}">
                                 <a href="http://localhost:8080/ExamOnline-war/app/question/question-list.xhtml">
                                     <span class="sidebar-mini"> L </span>
                                     <span class="sidebar-normal"> Question List </span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="./pages/rtl.html">
+                            <li class="#{request.requestURI == '/ExamOnline-war/app/question/question-create.xhtml' ? 'active' : null}">
+                                <a href="http://localhost:8080/ExamOnline-war/app/question/question-create.xhtml">
                                     <span class="sidebar-mini"> C </span>
                                     <span class="sidebar-normal"> Create Question </span>
                                 </a>

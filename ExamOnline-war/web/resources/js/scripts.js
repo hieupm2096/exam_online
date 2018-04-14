@@ -1,7 +1,7 @@
 
 function scroll_to_class(element_class, removed_height) {
 	var scroll_to = $(element_class).offset().top - removed_height;
-	if($(window).scrollTop() != scroll_to) {
+	if($(window).scrollTop() !== scroll_to) {
 		$('html, body').stop().animate({scrollTop: scroll_to}, 0);
 	}
 }

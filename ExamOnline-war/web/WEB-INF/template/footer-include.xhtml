@@ -7,12 +7,12 @@
             <nav class="pull-left">
                 <ul>
                     <li>
-                        <a href="http://localhost:8080/ExamOnline-war/app/home.xhtml">
+                        <a href="http://localhost:8080/ExamOnline-war/app/home.xhtml" style="#{request.requestURI == '/ExamOnline-war/app/home.xhtml' ? 'color: #9c27b0;' : null}">
                             Home
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="http://localhost:8080/ExamOnline-war/app/question/question-list.xhtml" style="#{request.requestURI == '/ExamOnline-war/app/question/question-list.xhtml' ? 'color: #9c27b0;' : null}">
                             Questions
                         </a>
                     </li>

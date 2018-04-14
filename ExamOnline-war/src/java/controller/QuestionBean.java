@@ -18,7 +18,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -44,12 +46,15 @@ public class QuestionBean implements Serializable {
     private List<QuestionType> questionTypeList;
     private List<Course> courseList;
 
-    private String questionTypeId;
+    private String id;
     private String content;
+    private String questionTypeId;
     private String courseId;
+    private boolean status;
+    private List<Answer> answerList;
 
     private String[][] answers;
-    
+
     public List<Question> getQuestionList() {
         return questionFacade.findAll();
     }
@@ -60,30 +65,6 @@ public class QuestionBean implements Serializable {
 
     public List<Course> getCourseList() {
         return courseFacade.findAll();
-    }
-
-    public String getQuestionTypeId() {
-        return questionTypeId;
-    }
-
-    public void setQuestionTypeId(String questionTypeId) {
-        this.questionTypeId = questionTypeId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
     }
 
     public String[][] getAnswers() {
@@ -114,13 +95,75 @@ public class QuestionBean implements Serializable {
             }
         }
 
-        return "index?faces-redirect=true";
+        return "question-list?faces-redirect=true";
     }
 
     private void createAnswer(String content, boolean isCorrect, Question question) {
-        String id = answerFacade.generateAnswerId();
-        Answer answer = new Answer(id, content, isCorrect);
+        String autoId = answerFacade.generateAnswerId();
+        Answer answer = new Answer(autoId, content, isCorrect);
         answer.setQuestionId(question);
         answerFacade.create(answer);
     }
+
+    public void findQuestion() {
+        String inputId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getParameter("id");
+        if (inputId != null) {
+            Question question = questionFacade.find(inputId);
+            id = question.getId();
+            content = question.getContent();
+            questionTypeId = question.getQuestionTypeId().getId();
+            courseId = question.getCourseId().getId();
+            status = question.getStatus();
+            answerList = question.getAnswerList();
+        }
+    }
+    
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    public String getQuestionTypeId() {
+        return questionTypeId;
+    }
+
+    public void setQuestionTypeId(String questionTypeId) {
+        this.questionTypeId = questionTypeId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+        
+    public List<Answer> getAnswerList() {
+        return answerList;
+    }
+
+    public void setAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
+    }
+
 }
