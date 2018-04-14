@@ -118,6 +118,14 @@ public class QuestionBean implements Serializable {
         }
     }
     
+    public String removeQuestion(Question q) {
+        for (Answer answer : q.getAnswerList()) {
+            answerFacade.remove(answer);
+        }
+        questionFacade.remove(q);
+        return "question-list?facet-redirect=true";
+    }
+    
     public String getId() {
         return id;
     }
