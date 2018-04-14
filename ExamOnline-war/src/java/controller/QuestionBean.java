@@ -14,6 +14,7 @@ import facade.CourseFacade;
 import facade.QuestionFacade;
 import facade.QuestionTypeFacade;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -87,22 +88,29 @@ public class QuestionBean implements Serializable {
         q.setStatus(true);
         q.setQuestionTypeId(questionTypeFacade.find(questionTypeId));
         q.setCourseId(courseFacade.find(courseId));
-        questionFacade.create(q);
-
+        
+        List<Answer> a = new ArrayList<>();
+        String currentAnswerId = answerFacade.generateAnswerId();
+        
+        long number = Integer.parseInt(currentAnswerId.substring(1));
+        int i = 0;
+        
         for (String[] answer : answers) {
             if (answer != null && !answer[0].isEmpty()) {
-                createAnswer(answer[0], Boolean.parseBoolean(answer[1]), q);
+                a.add(createAnswer("A" + String.format("%09d", number + i),answer[0], Boolean.parseBoolean(answer[1]), q));
+                i++;
             }
         }
-
+        
+        q.setAnswerList(a);
+        questionFacade.create(q);
         return "question-list?faces-redirect=true";
     }
-
-    private void createAnswer(String content, boolean isCorrect, Question question) {
-        String autoId = answerFacade.generateAnswerId();
-        Answer answer = new Answer(autoId, content, isCorrect);
+    
+    private Answer createAnswer(String id, String content, boolean isCorrect, Question question) {
+        Answer answer = new Answer(id, content, isCorrect);
         answer.setQuestionId(question);
-        answerFacade.create(answer);
+        return answer;
     }
 
     public void findQuestion() {
@@ -117,7 +125,7 @@ public class QuestionBean implements Serializable {
             answerList = question.getAnswerList();
         }
     }
-    
+
     public String removeQuestion(Question q) {
         for (Answer answer : q.getAnswerList()) {
             answerFacade.remove(answer);
@@ -125,7 +133,7 @@ public class QuestionBean implements Serializable {
         questionFacade.remove(q);
         return "question-list?facet-redirect=true";
     }
-    
+
     public String getId() {
         return id;
     }
@@ -133,7 +141,7 @@ public class QuestionBean implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getContent() {
         return content;
     }
@@ -141,7 +149,7 @@ public class QuestionBean implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
     public String getQuestionTypeId() {
         return questionTypeId;
     }
@@ -165,7 +173,7 @@ public class QuestionBean implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
-        
+
     public List<Answer> getAnswerList() {
         return answerList;
     }
