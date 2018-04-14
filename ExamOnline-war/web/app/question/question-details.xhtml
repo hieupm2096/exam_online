@@ -33,7 +33,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label"></label>
-                                                    <h:inputTextarea value="#{questionBean.content}" class="form-control" rows="3" a:placeholder="Question..." a:required="true" a:maxlength="200" />
+                                                    <h:inputTextarea value="#{questionBean.content}" class="form-control" a:placeholder="Question..." a:required="true" a:maxlength="200" />
                                                     <span class="help-block">200 characters</span>
                                                 </div>
                                             </div>
@@ -162,7 +162,12 @@
 
 
             var table = $('#datatables').DataTable();
-
+            $('textarea').each(function () {
+                this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+            }).on('input', function () {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
         });
     </script>
 </html>
