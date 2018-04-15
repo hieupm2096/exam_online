@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author oswal
  */
 @Entity
+@Table(name = "User")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -62,15 +64,15 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "_status")
     private boolean status;
-    @OneToMany(mappedBy = "userId")
-    private List<Exam> examList;
-    @OneToMany(mappedBy = "userId")
-    private List<Course> courseList;
+    @JoinColumn(name = "_role_id", referencedColumnName = "_id")
+    @ManyToOne(optional = false)
+    private Role roleId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Class> classList;
-    @JoinColumn(name = "_role_id", referencedColumnName = "_id")
-    @ManyToOne
-    private Role roleId;
+    @OneToMany(mappedBy = "userId")
+    private List<Course> courseList;
+    @OneToMany(mappedBy = "userId")
+    private List<Exam> examList;
 
     public User() {
     }
@@ -126,13 +128,21 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    @XmlTransient
-    public List<Exam> getExamList() {
-        return examList;
+    public Role getRoleId() {
+        return roleId;
     }
 
-    public void setExamList(List<Exam> examList) {
-        this.examList = examList;
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
+    }
+
+    @XmlTransient
+    public List<Class> getClassList() {
+        return classList;
+    }
+
+    public void setClassList(List<Class> classList) {
+        this.classList = classList;
     }
 
     @XmlTransient
@@ -145,20 +155,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public List<Class> getClassList() {
-        return classList;
+    public List<Exam> getExamList() {
+        return examList;
     }
 
-    public void setClassList(List<Class> classList) {
-        this.classList = classList;
-    }
-
-    public Role getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Role roleId) {
-        this.roleId = roleId;
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
     }
 
     @Override

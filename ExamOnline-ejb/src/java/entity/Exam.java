@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -32,14 +33,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author oswal
  */
 @Entity
+@Table(name = "Exam")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Exam.findAll", query = "SELECT e FROM Exam e")
     , @NamedQuery(name = "Exam.findById", query = "SELECT e FROM Exam e WHERE e.id = :id")
     , @NamedQuery(name = "Exam.findByName", query = "SELECT e FROM Exam e WHERE e.name = :name")
+    , @NamedQuery(name = "Exam.findByNumOfQuestion", query = "SELECT e FROM Exam e WHERE e.numOfQuestion = :numOfQuestion")
     , @NamedQuery(name = "Exam.findByDuration", query = "SELECT e FROM Exam e WHERE e.duration = :duration")
-    , @NamedQuery(name = "Exam.findByStartTime", query = "SELECT e FROM Exam e WHERE e.startTime = :startTime")
-    , @NamedQuery(name = "Exam.findByNumOfQuestion", query = "SELECT e FROM Exam e WHERE e.numOfQuestion = :numOfQuestion")})
+    , @NamedQuery(name = "Exam.findByStartTime", query = "SELECT e FROM Exam e WHERE e.startTime = :startTime")})
 public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,26 +56,28 @@ public class Exam implements Serializable {
     private String name;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "_num_of_question")
+    private int numOfQuestion;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "_duration")
     private int duration;
     @Column(name = "_start_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
-    @Column(name = "_num_of_question")
-    private Integer numOfQuestion;
-    @JoinTable(name = "examquestion", joinColumns = {
+    @JoinTable(name = "ExamQuestion", joinColumns = {
         @JoinColumn(name = "_exam_id", referencedColumnName = "_id")}, inverseJoinColumns = {
         @JoinColumn(name = "_question_id", referencedColumnName = "_id")})
     @ManyToMany
     private List<Question> questionList;
-    @JoinColumn(name = "_course_id", referencedColumnName = "_id")
-    @ManyToOne(optional = false)
-    private Course courseId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam")
+    private List<ExamStudent> examStudentList;
     @JoinColumn(name = "_user_id", referencedColumnName = "_id")
     @ManyToOne
     private User userId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "exam")
-    private List<ExamStudent> examStudentList;
+    @JoinColumn(name = "_course_id", referencedColumnName = "_id")
+    @ManyToOne(optional = false)
+    private Course courseId;
 
     public Exam() {
     }
@@ -82,8 +86,9 @@ public class Exam implements Serializable {
         this.id = id;
     }
 
-    public Exam(String id, int duration) {
+    public Exam(String id, int numOfQuestion, int duration) {
         this.id = id;
+        this.numOfQuestion = numOfQuestion;
         this.duration = duration;
     }
 
@@ -103,6 +108,14 @@ public class Exam implements Serializable {
         this.name = name;
     }
 
+    public int getNumOfQuestion() {
+        return numOfQuestion;
+    }
+
+    public void setNumOfQuestion(int numOfQuestion) {
+        this.numOfQuestion = numOfQuestion;
+    }
+
     public int getDuration() {
         return duration;
     }
@@ -119,14 +132,6 @@ public class Exam implements Serializable {
         this.startTime = startTime;
     }
 
-    public Integer getNumOfQuestion() {
-        return numOfQuestion;
-    }
-
-    public void setNumOfQuestion(Integer numOfQuestion) {
-        this.numOfQuestion = numOfQuestion;
-    }
-
     @XmlTransient
     public List<Question> getQuestionList() {
         return questionList;
@@ -136,12 +141,13 @@ public class Exam implements Serializable {
         this.questionList = questionList;
     }
 
-    public Course getCourseId() {
-        return courseId;
+    @XmlTransient
+    public List<ExamStudent> getExamStudentList() {
+        return examStudentList;
     }
 
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
+    public void setExamStudentList(List<ExamStudent> examStudentList) {
+        this.examStudentList = examStudentList;
     }
 
     public User getUserId() {
@@ -152,13 +158,12 @@ public class Exam implements Serializable {
         this.userId = userId;
     }
 
-    @XmlTransient
-    public List<ExamStudent> getExamStudentList() {
-        return examStudentList;
+    public Course getCourseId() {
+        return courseId;
     }
 
-    public void setExamStudentList(List<ExamStudent> examStudentList) {
-        this.examStudentList = examStudentList;
+    public void setCourseId(Course courseId) {
+        this.courseId = courseId;
     }
 
     @Override

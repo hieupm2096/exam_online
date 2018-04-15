@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author oswal
  */
 @Entity
+@Table(name = "Class")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c")
@@ -49,11 +51,11 @@ public class Class implements Serializable {
     @NotNull
     @Column(name = "_status")
     private boolean status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-    private List<Student> studentList;
     @JoinColumn(name = "_user_id", referencedColumnName = "_id")
     @ManyToOne(optional = false)
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Student> studentList;
 
     public Class() {
     }
@@ -91,6 +93,14 @@ public class Class implements Serializable {
         this.status = status;
     }
 
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
     @XmlTransient
     public List<Student> getStudentList() {
         return studentList;
@@ -98,14 +108,6 @@ public class Class implements Serializable {
 
     public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
     }
 
     @Override

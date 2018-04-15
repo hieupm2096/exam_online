@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author oswal
  */
 @Entity
+@Table(name = "Student")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s")
@@ -66,16 +68,16 @@ public class Student implements Serializable {
     @NotNull
     @Column(name = "_status")
     private boolean status;
-    @JoinTable(name = "studentcourse", joinColumns = {
+    @JoinTable(name = "StudentCourse", joinColumns = {
         @JoinColumn(name = "_student_id", referencedColumnName = "_id")}, inverseJoinColumns = {
         @JoinColumn(name = "_course_id", referencedColumnName = "_id")})
     @ManyToMany
     private List<Course> courseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private List<ExamStudent> examStudentList;
     @JoinColumn(name = "_class_id", referencedColumnName = "_id")
     @ManyToOne(optional = false)
     private Class classId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
-    private List<ExamStudent> examStudentList;
 
     public Student() {
     }
@@ -141,14 +143,6 @@ public class Student implements Serializable {
         this.courseList = courseList;
     }
 
-    public Class getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Class classId) {
-        this.classId = classId;
-    }
-
     @XmlTransient
     public List<ExamStudent> getExamStudentList() {
         return examStudentList;
@@ -156,6 +150,14 @@ public class Student implements Serializable {
 
     public void setExamStudentList(List<ExamStudent> examStudentList) {
         this.examStudentList = examStudentList;
+    }
+
+    public Class getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Class classId) {
+        this.classId = classId;
     }
 
     @Override

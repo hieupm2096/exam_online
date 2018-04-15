@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author oswal
  */
 @Entity
+@Table(name = "Course")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
@@ -57,12 +59,12 @@ public class Course implements Serializable {
     @ManyToMany(mappedBy = "courseList")
     private List<Student> studentList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
-    private List<Exam> examList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
     private List<Question> questionList;
     @JoinColumn(name = "_user_id", referencedColumnName = "_id")
     @ManyToOne
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
+    private List<Exam> examList;
 
     public Course() {
     }
@@ -118,15 +120,6 @@ public class Course implements Serializable {
     }
 
     @XmlTransient
-    public List<Exam> getExamList() {
-        return examList;
-    }
-
-    public void setExamList(List<Exam> examList) {
-        this.examList = examList;
-    }
-
-    @XmlTransient
     public List<Question> getQuestionList() {
         return questionList;
     }
@@ -141,6 +134,15 @@ public class Course implements Serializable {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    @XmlTransient
+    public List<Exam> getExamList() {
+        return examList;
+    }
+
+    public void setExamList(List<Exam> examList) {
+        this.examList = examList;
     }
 
     @Override
